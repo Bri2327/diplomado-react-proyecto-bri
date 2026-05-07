@@ -1,3 +1,5 @@
+import { TaskPageView } from '../../features/tasks/ui/TaskPageView';
+
 export const TaskPage = () => {
-  return <h1>TaskPage</h1>
-}
+  return <TaskPageView />;
+};
