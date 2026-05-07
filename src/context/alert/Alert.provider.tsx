@@ -1,4 +1,10 @@
-import { useState, type ReactNode } from 'react';
+import {
+  useCallback,
+  useMemo,
+  useState,
+  type ReactNode,
+  type SyntheticEvent,
+} from 'react';
 import { AlertContext, type AlertType } from './Alert.context';
 import { Alert, Snackbar, type AlertColor } from '@mui/material';
 
@@ -9,23 +15,29 @@ interface Props {
 export const AlertProvider = ({ children }: Props) => {
   const [alert, setAlert] = useState<AlertType | null>(null);
 
-  const showAlert = (message: string, severity: AlertColor = 'info') => {
+  const showAlert = useCallback((message: string, severity: AlertColor = 'info') => {
     setAlert({ message, severity });
+  }, []);
+
+  const value = useMemo(() => ({ showAlert }), [showAlert]);
+  const handleClose = (_event?: Event | SyntheticEvent, reason?: string) => {
+    if (reason === 'clickaway') return;
+    setAlert(null);
   };
 
   return (
-    <AlertContext.Provider value={{ showAlert }}>
+    <AlertContext.Provider value={value}>
       {children}
       {alert && (
         <Snackbar
           open={!!alert}
           autoHideDuration={3000}
-          onClose={() => setAlert(null)}
+          onClose={handleClose}
           anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         >
           <Alert
             severity={alert.severity}
-            onClose={() => setAlert(null)}
+            onClose={handleClose}
             variant="filled"
             sx={{ width: '100%' }}
           >

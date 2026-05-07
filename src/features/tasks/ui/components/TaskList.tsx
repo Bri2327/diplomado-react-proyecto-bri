@@ -1,6 +1,6 @@
 import { List, Paper, Typography } from '@mui/material';
 import type { Task, TaskRowOperation } from '../../domain/task.types';
-import { TaskItemRow } from './TaskItemRow';
+import TaskItemRow from './TaskItemRow';
 
 interface Props {
   tasks: Task[];

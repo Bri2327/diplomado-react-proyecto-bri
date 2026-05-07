@@ -58,6 +58,12 @@ export const TaskItemRow = ({
     setError('');
   };
 
+  const handleStartEdit = () => {
+    setDraftName(task.name);
+    setError('');
+    setIsEditing(true);
+  };
+
   return (
     <ListItem
       sx={{
@@ -76,6 +82,7 @@ export const TaskItemRow = ({
           <TextField
             size="small"
             fullWidth
+            autoFocus
             value={draftName}
             onChange={(event) => {
               setDraftName(event.target.value);
@@ -121,7 +128,7 @@ export const TaskItemRow = ({
           ) : (
             <IconButton
               color="primary"
-              onClick={() => setIsEditing(true)}
+              onClick={handleStartEdit}
               disabled={isBusy}
               aria-label="Editar tarea"
             >
@@ -151,3 +158,5 @@ export const TaskItemRow = ({
     </ListItem>
   );
 };
+
+export default TaskItemRow;
